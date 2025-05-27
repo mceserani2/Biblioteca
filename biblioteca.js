@@ -11,36 +11,39 @@ function disegnaTabella(){
         tBody.removeChild(tBody.firstChild);
     }
 
+    let filtroTitolo = document.getElementById("searchTitle").value.trim();
+
     libri.forEach((libro,i) => {
         // Filtra i libri in base ai criteri di ricerca
-
-        let tr = document.createElement("tr");
-        let tdTitolo = document.createElement("td");
-        tdTitolo.innerText = libro.titolo;
-        tr.appendChild(tdTitolo);
-        let tdAutore = document.createElement("td");
-        tdAutore.innerText = libro.autore;
-        tr.appendChild(tdAutore);
-        let tdGenere = document.createElement("td");
-        tdGenere.innerText = libro.genere;
-        tr.appendChild(tdGenere);
-        let tdAnno = document.createElement("td");
-        tdAnno.innerText = libro.anno;
-        tr.appendChild(tdAnno);
-        let tdDisp = document.createElement("td");
-        tdDisp.innerText = libro.disponibile ? "Disponibile" : "In prestito";
-        tr.appendChild(tdDisp);
-        let tdAzioni = document.createElement("td");
-        let buttonDelete = document.createElement("button");
-        buttonDelete.innerText = "Elimina";
-        buttonDelete.addEventListener("click",() => {
-            // Rimuovi libro dal vettore libri
-            libri.splice(i,1);
-            disegnaTabella();
-        });
-        tdAzioni.appendChild(buttonDelete);
-        tr.appendChild(tdAzioni);
-        tBody.appendChild(tr);
+        if (filtroTitolo === "" || libro.titolo.toLowerCase().includes(filtroTitolo)) {
+            let tr = document.createElement("tr");
+            let tdTitolo = document.createElement("td");
+            tdTitolo.innerText = libro.titolo;
+            tr.appendChild(tdTitolo);
+            let tdAutore = document.createElement("td");
+            tdAutore.innerText = libro.autore;
+            tr.appendChild(tdAutore);
+            let tdGenere = document.createElement("td");
+            tdGenere.innerText = libro.genere;
+            tr.appendChild(tdGenere);
+            let tdAnno = document.createElement("td");
+            tdAnno.innerText = libro.anno;
+            tr.appendChild(tdAnno);
+            let tdDisp = document.createElement("td");
+            tdDisp.innerText = libro.disponibile ? "Disponibile" : "In prestito";
+            tr.appendChild(tdDisp);
+            let tdAzioni = document.createElement("td");
+            let buttonDelete = document.createElement("button");
+            buttonDelete.innerText = "Elimina";
+            buttonDelete.addEventListener("click",() => {
+                // Rimuovi libro dal vettore libri
+                libri.splice(i,1);
+                disegnaTabella();
+            });
+            tdAzioni.appendChild(buttonDelete);
+            tr.appendChild(tdAzioni);
+            tBody.appendChild(tr);
+        }
     });
 
 }
