@@ -13,36 +13,65 @@ function disegnaTabella(){
 
     let filtroTitolo = document.getElementById("searchTitle").value.trim();
 
+    let filtroAutore = document.getElementById("searchAuthor").value.trim().toLowerCase();
+
+    let filtroGenere = document.getElementById("selectGenre").value;
+
+    let filtroDisponibile = document.getElementById("availableBooks").value;
+
     libri.forEach((libro,i) => {
+        let disp = libro.disponibile ? "available" : "borrowed";
         // Filtra i libri in base ai criteri di ricerca
         if (filtroTitolo === "" || libro.titolo.toLowerCase().includes(filtroTitolo)) {
-            let tr = document.createElement("tr");
-            let tdTitolo = document.createElement("td");
-            tdTitolo.innerText = libro.titolo;
-            tr.appendChild(tdTitolo);
-            let tdAutore = document.createElement("td");
-            tdAutore.innerText = libro.autore;
-            tr.appendChild(tdAutore);
-            let tdGenere = document.createElement("td");
-            tdGenere.innerText = libro.genere;
-            tr.appendChild(tdGenere);
-            let tdAnno = document.createElement("td");
-            tdAnno.innerText = libro.anno;
-            tr.appendChild(tdAnno);
-            let tdDisp = document.createElement("td");
-            tdDisp.innerText = libro.disponibile ? "Disponibile" : "In prestito";
-            tr.appendChild(tdDisp);
-            let tdAzioni = document.createElement("td");
-            let buttonDelete = document.createElement("button");
-            buttonDelete.innerText = "Elimina";
-            buttonDelete.addEventListener("click",() => {
-                // Rimuovi libro dal vettore libri
-                libri.splice(i,1);
-                disegnaTabella();
-            });
-            tdAzioni.appendChild(buttonDelete);
-            tr.appendChild(tdAzioni);
-            tBody.appendChild(tr);
+            if (filtroAutore === "" || libro.autore.toLowercase().includes(filtroAutore)) {
+                if (filtroGenere === "all" || filtroGenere === libro.genere) {
+                    if (filtroDisponibile === "all" || filtroDisponibile === disp) {
+                        let tr = document.createElement("tr");
+                        let tdTitolo = document.createElement("td");
+                        tdTitolo.innerText = libro.titolo;
+                        tr.appendChild(tdTitolo);
+                        let tdAutore = document.createElement("td");
+                        tdAutore.innerText = libro.autore;
+                        tr.appendChild(tdAutore);
+                        let tdGenere = document.createElement("td");
+                        tdGenere.innerText = libro.genere;
+                        tr.appendChild(tdGenere);
+                        let tdAnno = document.createElement("td");
+                        tdAnno.innerText = libro.anno;
+                        tr.appendChild(tdAnno);
+                        let tdDisp = document.createElement("td");
+                        tdDisp.innerText = libro.disponibile ? "Disponibile" : "In prestito";
+                        tr.appendChild(tdDisp);
+                        let tdAzioni = document.createElement("td");
+                        let buttonDelete = document.createElement("button");
+                        buttonDelete.innerText = "Elimina";
+                        buttonDelete.addEventListener("click",() => {
+                            // Rimuovi libro dal vettore libri
+                            libri.splice(i,1);
+                            disegnaTabella();
+                            aggiornaTotali();
+                            aggiornaPrestiti();
+                        });
+                        tdAzioni.appendChild(buttonDelete);
+                        let buttonBorrow = document.createElement("button");
+                        buttonBorrow.innerText = libro.disponibile ? "Presta" : "Restituisci";
+                        buttonBorrow.addEventListener("click",() => {
+                            if (libro.disponibile){
+                                libro.disponibile = false;
+                                buttonBorrow.innerText = "Restituisci";
+                            } else {
+                                libro.disponibile = true;
+                                buttonBorrow.innerText = "Presta";
+                            }
+                            disegnaTabella();
+                            aggiornaPrestiti();
+                        });
+                        tdAzioni.appendChild(buttonBorrow);
+                        tr.appendChild(tdAzioni);
+                        tBody.appendChild(tr);
+                    }
+                }
+            }
         }
     });
 
@@ -68,9 +97,26 @@ function aggiungiLibro(){
     // Ridisegna la tabella
     disegnaTabella();
 
+    aggiornaTotali();
+
     // Pulisci il form
     document.getElementById("insertBookForm").reset();
 
+}
+
+function aggiornaTotali() {
+    let libriTot = document.getElementById("libriTot"); 
+    libriTot.innerText = libri.length;
+}
+
+function aggiornaPrestiti() {
+    let libriPres = document.getElementById("libriPres");
+    let numPres = 0;
+    libri.forEach((libro) => {
+        if (!libro.disponibile)
+            numPres++;
+    });
+    libriPres.innerText = numPres;
 }
 
 let formInserisci = document.getElementById("insertBookForm");

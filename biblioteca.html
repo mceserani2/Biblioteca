@@ -9,8 +9,8 @@
     <header>
         <h1>Biblioteca</h1>
         <div id="stats">
-            <div class="stat">Libri totali: <span id="libriTot"></span></div>
-            <div class="stat">Libri in prestito: <span id="libriPres"></span></div>
+            <div class="stat">Libri totali: <span id="libriTot">0</span></div>
+            <div class="stat">Libri in prestito: <span id="libriPres">0</span></div>
         </div>
     </header>
     <main>
@@ -34,7 +34,7 @@
             <input type="text" id="searchAuthor">
             <label for="selectGenre">Filtra per Genere:</label>
             <select id="selectGenre">
-                <option value="">Tutti</option>
+                <option value="all">Tutti</option>
             </select>
             <label for="availableBooks">Mostra solo:</label>
             <select id="availableBooks">
