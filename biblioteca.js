@@ -1,7 +1,9 @@
 let libri = [];
 
+let lastId = -1;
+
 function disegnaTabella(){
-    
+
 }
 
 function aggiungiLibro(){
