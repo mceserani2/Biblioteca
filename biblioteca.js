@@ -51,6 +51,7 @@ function disegnaTabella(){
                             disegnaTabella();
                             aggiornaTotali();
                             aggiornaPrestiti();
+                            aggiornaGeneri();
                         });
                         tdAzioni.appendChild(buttonDelete);
                         let buttonBorrow = document.createElement("button");
@@ -98,6 +99,7 @@ function aggiungiLibro(){
     disegnaTabella();
 
     aggiornaTotali();
+    aggiornaGeneri();
 
     // Pulisci il form
     document.getElementById("insertBookForm").reset();
@@ -117,6 +119,28 @@ function aggiornaPrestiti() {
             numPres++;
     });
     libriPres.innerText = numPres;
+}
+
+function aggiornaGeneri() {
+    let selectGenere = document.getElementById("selectGenre");
+    // Pulisci le opzioni esistenti
+    while (selectGenere.firstChild) {
+        selectGenere.removeChild(selectGenere.firstChild);
+    }
+    // Aggiungi l'opzione "Tutti"
+    let optionAll = document.createElement("option");
+    optionAll.value = "all";
+    optionAll.innerText = "Tutti";
+    selectGenere.appendChild(optionAll);
+    
+    // Aggiungi le opzioni per i generi dei libri
+    let generi = new Set(libri.map(libro => libro.genere));
+    generi.forEach((genere) => {
+        let option = document.createElement("option");
+        option.value = genere;
+        option.innerText = genere;
+        selectGenere.appendChild(option);
+    });
 }
 
 let formInserisci = document.getElementById("insertBookForm");
