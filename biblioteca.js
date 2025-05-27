@@ -73,3 +73,23 @@ formInserisci.addEventListener("submit",(event) => {
     event.preventDefault();
     aggiungiLibro();
 });
+
+let searchTitle = document.getElementById("searchTitle");
+searchTitle.addEventListener("input",() => {
+    disegnaTabella();
+});
+
+let searchAuthor = document.getElementById("searchAuthor");
+searchAuthor.addEventListener("input",() => {
+    disegnaTabella();
+});
+
+let selectGenre = document.getElementById("selectGenre");
+selectGenre.addEventListener("change", () => {
+    disegnaTabella();
+});
+
+let availableBooks = document.getElementById("availableBooks");
+availableBooks.addEventListener("change", () => {
+    disegnaTabella();
+});
