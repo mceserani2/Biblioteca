@@ -12,6 +12,8 @@ function disegnaTabella(){
     }
 
     libri.forEach((libro,i) => {
+        // Filtra i libri in base ai criteri di ricerca
+
         let tr = document.createElement("tr");
         let tdTitolo = document.createElement("td");
         tdTitolo.innerText = libro.titolo;
